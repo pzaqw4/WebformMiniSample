@@ -22,17 +22,19 @@ namespace AccountingNote.SystemAdmin
                 return;
             }
 
-            string account = this.Session["UserLoginInfo"] as string;
-            var dr = UserInfoManager.GetUserInfoByAccount(account);
 
-            if (dr == null)
+            var currentUser = AuthManager.GetCurrentUser();
+
+            if (currentUser == null) //若帳號不存在,移動至登入頁
             {
+                this.Session["UserLoginInfo"] = null;
                 Response.Redirect("/Login.aspx");
                 return;
             }
 
+
             //讀取帳號資料
-            var dt = AccountingManager.GetAccountingList(dr["ID"].ToString());
+            var dt = AccountingManager.GetAccountingList(currentUser.ID);
 
             if (dt.Rows.Count > 0)
             {
