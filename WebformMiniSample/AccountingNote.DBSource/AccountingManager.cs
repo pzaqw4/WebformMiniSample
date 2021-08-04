@@ -143,7 +143,7 @@ namespace AccountingNote.DBSource
         }
 
         /// <summary>
-        /// 更新流水帳
+        /// 變更流水帳
         /// </summary>
         /// <param name="ID"></param>
         /// <param name="userID"></param>
@@ -174,36 +174,30 @@ namespace AccountingNote.DBSource
                    WHERE 
                     ID = @id ";
 
+            List<SqlParameter> paramList = new List<SqlParameter>();
+            paramList.Add(new SqlParameter("@userID", userID));
+            paramList.Add(new SqlParameter("@caption", caption));
+            paramList.Add(new SqlParameter("@amount", amount));
+            paramList.Add(new SqlParameter("@actType", actType));
+            paramList.Add(new SqlParameter("@createDate", DateTime.Now));
+            paramList.Add(new SqlParameter("@body", body));
+            paramList.Add(new SqlParameter("@id", ID));
 
-            //連線DB與執行
-            using (SqlConnection conn = new SqlConnection(connStr))
+
+            try
             {
-                using (SqlCommand comm = new SqlCommand(dbCommand, conn))
-                {
-                    comm.Parameters.AddWithValue("@userID", userID);
-                    comm.Parameters.AddWithValue("@caption", caption);
-                    comm.Parameters.AddWithValue("@amount", amount);
-                    comm.Parameters.AddWithValue("@actType", actType);
-                    comm.Parameters.AddWithValue("@createDate", DateTime.Now);
-                    comm.Parameters.AddWithValue("@body", body);
-                    comm.Parameters.AddWithValue("@id", ID);
+                int effectRows = DBHelper.ModifyData(connStr, dbCommand, paramList);
 
-                    try
-                    {
-                        conn.Open();
-                        int effectRows = comm.ExecuteNonQuery();
+                if (effectRows == 1)
+                    return true;
+                else
+                    return false;
 
-                        if (effectRows == 1)
-                            return true;
-                        else
-                            return false;
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.WriteLog(ex);
-                        return false;
-                    }
-                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return false;
             }
         }
 
@@ -215,26 +209,25 @@ namespace AccountingNote.DBSource
         {
             string connStr = DBHelper.GetConnectionString();
             string dbCommand =
-                $@"DELETE [Accounting]
-                   WHERE ID = @id ";
+                    $@"DELETE [Accounting]
+                     WHERE ID = @id ";
 
-            using (SqlConnection conn = new SqlConnection(connStr))
+            List<SqlParameter> paramList = new List<SqlParameter>();
+            paramList.Add(new SqlParameter("@id", ID));
+
+            try
             {
-                using (SqlCommand comm = new SqlCommand(dbCommand, conn))
-                {
-                    comm.Parameters.AddWithValue("@id", ID);
+                DBHelper.ModifyData(connStr, dbCommand, paramList);
 
-                    try
-                    {
-                        conn.Open();
-                        comm.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.WriteLog(ex);
-                    }
-                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
             }
         }
     }
 }
+
+
+
+
