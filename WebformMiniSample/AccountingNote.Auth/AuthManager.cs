@@ -61,5 +61,47 @@ namespace AccountingNote.Auth
         {
             HttpContext.Current.Session["UserLoginInfo"] = null;
         }
+
+        /// <summary>
+        /// 嘗試登入
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="pwd"></param>
+        /// <param name="errorMsg"></param>
+        /// <returns></returns>
+        public static bool TryLogin(string account,string pwd ,out string errorMsg)
+        {
+           
+            //檢查是否輸入帳密
+            if (string.IsNullOrWhiteSpace(account) || string.IsNullOrWhiteSpace(pwd))
+            {
+                errorMsg = "帳號密碼為必填,請重新輸入";
+                return false;
+            }
+
+            //讀取跟檢查DB 
+            var dr = UserInfoManager.GetUserInfoByAccount(account);
+
+            //check null
+            if (dr == null)
+            {
+                errorMsg = $"此帳號{account}不存在,請重新輸入";
+                return false;
+            }
+
+            //確認帳號密碼輸入值
+            if (string.Compare(dr["Account"].ToString(), account, true) == 0 &&
+              string.Compare(dr["PWD"].ToString(), pwd, false) == 0)
+            {
+                HttpContext.Current.Session["UserLoginInfo"] = dr["Account"].ToString();
+                errorMsg = string.Empty;
+                return true;
+            }
+            else
+            {
+                errorMsg = "帳號密碼有誤,請確認後再輸入";
+                return false;
+            }
+        }
     }
 }
