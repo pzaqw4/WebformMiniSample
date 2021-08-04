@@ -18,7 +18,7 @@ namespace AccountingNote.DBSource
         /// <returns></returns>
         public static DataTable GetAccountingList(string userID)
         {
-            string connStr =DBHelper.GetConnectionString();
+            string connStr = DBHelper.GetConnectionString();
             string dbCommand =
                 $@" SELECT 
                     ID,
@@ -29,28 +29,18 @@ namespace AccountingNote.DBSource
                     FROM Accounting
                     WHERE UserID = @userID
                 ";
-            using (SqlConnection conn = new SqlConnection(connStr))
+
+            List<SqlParameter> list = new List<SqlParameter>();
+            list.Add(new SqlParameter("@userID", userID));
+            
+            try
             {
-                using (SqlCommand comm = new SqlCommand(dbCommand, conn))
-                {
-                    comm.Parameters.AddWithValue("@userID", userID);
-
-                    try
-                    {
-                        conn.Open();
-                        var reader = comm.ExecuteReader();
-
-                        DataTable dt = new DataTable();
-                        dt.Load(reader);
-
-                        return dt;
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.WriteLog(ex);
-                        return null;
-                    }
-                }
+                return DBHelper.ReadDataTable(connStr, dbCommand, list);  
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return null;
             }
         }
 
