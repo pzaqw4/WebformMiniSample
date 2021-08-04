@@ -11,13 +11,6 @@ namespace AccountingNote.DBSource
 {
     public class AccountingManager
     {
-        private static string GetConnectionString()
-        {
-
-            string val = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            return val;
-        }
-
         /// <summary>
         /// 查詢流水帳清單
         /// </summary>
@@ -25,7 +18,7 @@ namespace AccountingNote.DBSource
         /// <returns></returns>
         public static DataTable GetAccountingList(string userID)
         {
-            string connStr = GetConnectionString();
+            string connStr =DBHelper.GetConnectionString();
             string dbCommand =
                 $@" SELECT 
                     ID,
@@ -68,7 +61,7 @@ namespace AccountingNote.DBSource
         /// <returns></returns>
         public static DataRow GetAccounting(int id,string userID)
         {
-            string connStr = GetConnectionString();
+            string connStr = DBHelper.GetConnectionString();
             string dbCommand =
                 $@" SELECT 
                     ID,
@@ -126,7 +119,7 @@ namespace AccountingNote.DBSource
             if (actType < 0 || actType > 1)
                 throw new ArgumentException("必須為0或1");
 
-            string connStr = GetConnectionString();
+            string connStr = DBHelper.GetConnectionString();
             string dbCommand =
                 $@"INSERT INTO [dbo].[Accounting]
                 (    UserID
@@ -191,7 +184,7 @@ namespace AccountingNote.DBSource
             if (actType < 0 || actType > 1)
                 throw new ArgumentException("必須為0或1");
 
-            string connStr = GetConnectionString();
+            string connStr = DBHelper.GetConnectionString();
             string dbCommand =
                 $@"UPDATE [Accounting]
                    SET 
@@ -243,7 +236,7 @@ namespace AccountingNote.DBSource
         /// <param name="ID"></param>
         public static void DeleteAccounting(int ID)
         {
-            string connStr = GetConnectionString();
+            string connStr = DBHelper.GetConnectionString();
             string dbCommand =
                 $@"DELETE [Accounting]
                    WHERE ID = @id ";
