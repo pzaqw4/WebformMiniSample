@@ -16,7 +16,6 @@ namespace AccountingNote.SystemAdmin
         protected void Page_Load(object sender, EventArgs e)
         {
             //驗證登入
-           //if (this.Session["UserLoginInfo"] == null)
            if(!AuthManager.IsLogined())
             {
                 Response.Redirect("/Login.aspx");
