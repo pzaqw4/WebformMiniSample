@@ -32,10 +32,10 @@ namespace AccountingNote.DBSource
 
             List<SqlParameter> list = new List<SqlParameter>();
             list.Add(new SqlParameter("@userID", userID));
-            
+
             try
             {
-                return DBHelper.ReadDataTable(connStr, dbCommand, list);  
+                return DBHelper.ReadDataTable(connStr, dbCommand, list);
             }
             catch (Exception ex)
             {
@@ -49,7 +49,7 @@ namespace AccountingNote.DBSource
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static DataRow GetAccounting(int id,string userID)
+        public static DataRow GetAccounting(int id, string userID)
         {
             string connStr = DBHelper.GetConnectionString();
             string dbCommand =
@@ -63,34 +63,21 @@ namespace AccountingNote.DBSource
                     FROM Accounting
                     WHERE id = @id AND UserID = @userID
                 ";
-            using (SqlConnection conn = new SqlConnection(connStr))
+            List<SqlParameter> list = new List<SqlParameter>();
+            list.Add(new SqlParameter("@id", id));
+            list.Add(new SqlParameter("@userID", userID));
+
+            try
             {
-                using (SqlCommand comm = new SqlCommand(dbCommand, conn))
-                {
-                    comm.Parameters.AddWithValue("@id", id);
-                    comm.Parameters.AddWithValue("@userID", userID);
-
-                    try
-                    {
-                        conn.Open();
-                        var reader = comm.ExecuteReader();
-
-                        DataTable dt = new DataTable();
-                        dt.Load(reader);
-
-                        if (dt.Rows.Count == 0)
-                            return null;
-                        return dt.Rows[0];
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.WriteLog(ex);
-                        return null;
-                    }
-                }
+                return DBHelper.ReadDataRow(connStr, dbCommand, list);
             }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return null;
+            }
+
         }
-    
 
         /// <summary>
         /// 建立流水帳
@@ -101,7 +88,7 @@ namespace AccountingNote.DBSource
         /// <param name="actType"></param>
         /// <param name="body"></param>
         public static void CreateAccounting(string userID, string caption, int amount
-            ,int actType ,string body)
+            , int actType, string body)
         {
             //檢查輸入值
             if (amount < 0 || amount > 1000000)
@@ -165,7 +152,7 @@ namespace AccountingNote.DBSource
         /// <param name="actType"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static bool UpdateAccounting(int ID, string userID, string caption, 
+        public static bool UpdateAccounting(int ID, string userID, string caption,
             int amount, int actType, string body)
         {
             //檢查輸入值
@@ -186,7 +173,7 @@ namespace AccountingNote.DBSource
                     ,Body        = @body
                    WHERE 
                     ID = @id ";
-                
+
 
             //連線DB與執行
             using (SqlConnection conn = new SqlConnection(connStr))

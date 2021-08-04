@@ -14,11 +14,13 @@ namespace AccountingNote.DBSource
         public static string GetConnectionString()
         {
 
-            string val = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            string val = ConfigurationManager.ConnectionStrings["DefaultConnection"].
+                ConnectionString;
             return val;
         }
 
-        public static DataTable ReadDataTable(string connStr, string dbCommand, List<SqlParameter> list)
+        public static DataTable ReadDataTable(string connStr,
+            string dbCommand, List<SqlParameter> list)
         {
             using (SqlConnection conn = new SqlConnection(connStr))
             {
@@ -33,6 +35,28 @@ namespace AccountingNote.DBSource
                     dt.Load(reader);
 
                     return dt;
+                }
+            }
+        }
+
+        public static DataRow ReadDataRow(string connStr, 
+            string dbCommand, List<SqlParameter> list)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                using (SqlCommand comm = new SqlCommand(dbCommand, conn))
+                {
+                    comm.Parameters.AddRange(list.ToArray());
+
+                        conn.Open();
+                        var reader = comm.ExecuteReader();
+
+                        DataTable dt = new DataTable();
+                        dt.Load(reader);
+
+                        if (dt.Rows.Count == 0)
+                            return null;
+                        return dt.Rows[0];
                 }
             }
         }
