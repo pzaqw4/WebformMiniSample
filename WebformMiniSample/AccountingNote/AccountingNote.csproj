@@ -138,6 +138,10 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AccountingNote.Auth\AccountingNote.Auth.csproj">
+      <Project>{a788994c-c3b9-40f4-bf7c-a19d5e6d0b74}</Project>
+      <Name>AccountingNote.Auth</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AccountingNote.DBSource\AccountingNote.DBSource.csproj">
       <Project>{c4363d04-8b8a-403f-8dd4-1504219f4c37}</Project>
       <Name>AccountingNote.DBSource</Name>
