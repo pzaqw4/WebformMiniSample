@@ -38,14 +38,61 @@ namespace AccountingNote.SystemAdmin
 
             if (dt.Rows.Count > 0)
             {
-                this.gvAccountingList.DataSource = dt;
+                var dtPaged = this.GetPagedDataTable(dt);
+
+                this.gvAccountingList.DataSource = dtPaged;
                 this.gvAccountingList.DataBind();
+
+                this.ucPager.TotalSize = dt.Rows.Count;
+                this.ucPager.Bind();
             }
+
             else
             {
                 this.gvAccountingList.Visible = false;
                 this.plcNoData.Visible = true;
             }
+        }
+
+        private int GetCurrentPage()
+        {
+            string pageText = Request.QueryString["Page"];
+
+            if (string.IsNullOrWhiteSpace(pageText))
+                return 1;
+
+            int intPage;
+            if (!int.TryParse(pageText, out intPage))
+                return 1;
+
+            if (intPage <= 0)
+                return 1;
+            
+            return intPage;
+        }
+
+        private DataTable GetPagedDataTable(DataTable dt)//整段複製現有資料做回傳
+        {
+            DataTable dtPaged = dt.Clone(); //複製DataTable  
+
+            int startIndex = (this.GetCurrentPage()-1) * 10;
+            int endIndex = (this.GetCurrentPage()) * 10;
+            if (endIndex > dt.Rows.Count)  //總筆數需做檢查
+                endIndex = dt.Rows.Count;
+
+            for(var i= startIndex; i < endIndex; i++)  //資料列
+            {
+                DataRow dr = dt.Rows[i];
+                var drNew = dtPaged.NewRow();  //建立相同資料
+
+                foreach(DataColumn dc in dt.Columns)  //欄位
+                {
+                    drNew[dc.ColumnName] = dr[dc];  //欄位名稱 = [值]
+                }
+
+                dtPaged.Rows.Add(drNew);
+            }
+            return dtPaged;
         }
 
         protected void btnCreate_Click(object sender, EventArgs e)
