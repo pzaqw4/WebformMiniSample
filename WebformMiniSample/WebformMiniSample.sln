@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountingNote", "Accountin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountingNote.Auth", "AccountingNote.Auth\AccountingNote.Auth.csproj", "{A788994C-C3B9-40F4-BF7C-A19D5E6D0B74}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication2", "WebApplication2\WebApplication2.csproj", "{C138407F-A23F-4706-99E9-D75D526055FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TryReadWebAPI", "TryReadWebAPI\TryReadWebAPI.csproj", "{972B7546-0AF8-46B1-BDCD-7223E0D98E33}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{A788994C-C3B9-40F4-BF7C-A19D5E6D0B74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A788994C-C3B9-40F4-BF7C-A19D5E6D0B74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A788994C-C3B9-40F4-BF7C-A19D5E6D0B74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C138407F-A23F-4706-99E9-D75D526055FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C138407F-A23F-4706-99E9-D75D526055FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C138407F-A23F-4706-99E9-D75D526055FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C138407F-A23F-4706-99E9-D75D526055FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{972B7546-0AF8-46B1-BDCD-7223E0D98E33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{972B7546-0AF8-46B1-BDCD-7223E0D98E33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{972B7546-0AF8-46B1-BDCD-7223E0D98E33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{972B7546-0AF8-46B1-BDCD-7223E0D98E33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

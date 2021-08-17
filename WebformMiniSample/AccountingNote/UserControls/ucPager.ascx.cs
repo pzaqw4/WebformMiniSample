@@ -39,7 +39,7 @@ namespace AccountingNote.UserControls
         }
         private int GetCurrentPage()
         {
-            string pageText = Request.QueryString["Page"];
+            string pageText = this.Request.QueryString["page"];
 
             if (string.IsNullOrWhiteSpace(pageText))
                 return 1;

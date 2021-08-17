@@ -40,6 +40,9 @@ namespace AccountingNote.SystemAdmin
             {
                 var dtPaged = this.GetPagedDataTable(dt);
 
+                this.ucPager2.TotalSize = dt.Rows.Count;
+                this.ucPager2.Bind();
+
                 this.gvAccountingList.DataSource = dtPaged;
                 this.gvAccountingList.DataBind();
 
@@ -74,9 +77,10 @@ namespace AccountingNote.SystemAdmin
         private DataTable GetPagedDataTable(DataTable dt)//整段複製現有資料做回傳
         {
             DataTable dtPaged = dt.Clone(); //複製DataTable  
+            int pageSize = this.ucPager2.PageSize; 
 
-            int startIndex = (this.GetCurrentPage()-1) * 10;
-            int endIndex = (this.GetCurrentPage()) * 10;
+            int startIndex = (this.GetCurrentPage()-1) *pageSize;
+            int endIndex = (this.GetCurrentPage()) * pageSize;
             if (endIndex > dt.Rows.Count)  //總筆數需做檢查
                 endIndex = dt.Rows.Count;
 

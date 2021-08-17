@@ -1,6 +1,8 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AccountingList.aspx.cs" Inherits="AccountingNote.SystemAdmin.AccountingList" %>
 
 <%@ Register Src="~/UserControls/ucPager.ascx" TagPrefix="uc1" TagName="ucPager" %>
+<%@ Register Src="~/UserControls/ucPager2.ascx" TagPrefix="uc1" TagName="ucPager2" %>
+
 
 
 <!DOCTYPE html>
@@ -57,9 +59,12 @@
 
                     <asp:Literal ID="ltPager" runat="server"></asp:Literal>
 
-                    <uc1:ucPager runat="server" ID="ucPager" PageSize="10"
+                    <uc1:ucPager runat="server" ID="ucPager" PageSize="3"
                      CurrentPage="1" TotalSize="10" Url="AccountingList.aspx" />
                    
+                    <div style="background-color:darkgrey">
+                    <uc1:ucPager2 runat="server" ID="ucPager2" PageSize="3" Url="/SystemAdmin/AccountingList.aspx"/>
+                   </div>
                     <asp:PlaceHolder ID="plcNoData" runat="server" Visible="false">
                         <p style="color:red">
                             流水帳記事內無資料
