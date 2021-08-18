@@ -96,6 +96,13 @@ namespace AccountingNote.DBSource
             if (actType < 0 || actType > 1)
                 throw new ArgumentException("必須為0或1");
 
+            string bodyColumnSQL = "";
+            string bodyValueSQL = "";
+            if(!string.IsNullOrWhiteSpace(body))
+            {
+                bodyColumnSQL = ", Body";
+                bodyValueSQL = ", @Body";
+            }
             string connStr = DBHelper.GetConnectionString();
             string dbCommand =
                 $@"INSERT INTO [dbo].[Accounting]
@@ -104,7 +111,7 @@ namespace AccountingNote.DBSource
                     ,Amount
                     ,ActType
                     ,CreateDate
-                    ,Body
+                    {bodyColumnSQL}
                 )
                 VALUES
                 (
@@ -113,9 +120,8 @@ namespace AccountingNote.DBSource
                     ,@amount
                     ,@actType
                     ,@createDate
-                    ,@body
-                )
-                ";
+                    {bodyValueSQL}
+                )";
 
             //連線DB與執行
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -127,7 +133,8 @@ namespace AccountingNote.DBSource
                     comm.Parameters.AddWithValue("@amount", amount);
                     comm.Parameters.AddWithValue("@actType", actType);
                     comm.Parameters.AddWithValue("@createDate", DateTime.Now);
-                    comm.Parameters.AddWithValue("@body", body);
+                    if (!string.IsNullOrWhiteSpace(body))
+                        comm.Parameters.AddWithValue("@body", body);
 
                     try
                     {

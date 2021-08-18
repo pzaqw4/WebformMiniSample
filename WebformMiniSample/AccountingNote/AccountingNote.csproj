@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="AjaxAccountingNote.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
@@ -89,6 +90,13 @@
     <Compile Include="About.aspx.designer.cs">
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
+    <Compile Include="AjaxAccountingNote.aspx.cs">
+      <DependentUpon>AjaxAccountingNote.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AjaxAccountingNote.aspx.designer.cs">
+      <DependentUpon>AjaxAccountingNote.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -99,11 +107,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\AccountingNoteHandler.ashx.cs">
+      <DependentUpon>AccountingNoteHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Handlers\AccountingNoteList.ashx.cs">
       <DependentUpon>AccountingNoteList.ashx</DependentUpon>
-    </Compile>
-    <Compile Include="Handlers\CreateAccountingNote.ashx.cs">
-      <DependentUpon>CreateAccountingNote.ashx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
@@ -159,7 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Handlers\AccountingNoteList.ashx" />
-    <Content Include="Handlers\CreateAccountingNote.ashx" />
+    <Content Include="Handlers\AccountingNoteHandler.ashx" />
     <None Include="packages.config" />
     <Content Include="SystemAdmin\Admin.Master" />
     <None Include="Web.Debug.config">
