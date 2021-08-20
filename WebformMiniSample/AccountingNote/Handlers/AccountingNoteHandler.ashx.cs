@@ -18,12 +18,6 @@ namespace AccountingNote.Handlers
         {
             string actionName = context.Request.QueryString["ActionName"];
 
-            if (context.Request.HttpMethod != "POST")
-            {
-                this.ProcessError(context, "POST ONLY!!");
-                return;
-            }
-
             if (string.IsNullOrEmpty(actionName))
             {
                 context.Response.StatusCode = 400;
@@ -81,7 +75,28 @@ namespace AccountingNote.Handlers
             }
             else if(actionName=="list")
             {
+                string userID = "13B5B8AB-3CEF-4006-9E18-7D31818ABA7B";
+                
+                DataTable dataTable = AccountingManager.GetAccountingList(userID);
 
+                List<AccountingNoteViewModel> list = new List<AccountingNoteViewModel>();
+                foreach (DataRow drAccounting in dataTable.Rows)
+                {
+                    AccountingNoteViewModel model = new AccountingNoteViewModel()
+                    {
+                        ID = drAccounting["ID"].ToString(),
+                        Caption = drAccounting["Caption"].ToString(),
+                        Amount = drAccounting.Field<int>("Amount"),
+                        ActType = (drAccounting.Field<int>("ActType") == 0) ? "支出" : "收入",
+                        CreateDate = drAccounting.Field<DateTime>("CreateDate").ToString("yyyy-MM-dd")
+                    };
+
+                    list.Add(model);
+                }
+                string jsonText = Newtonsoft.Json.JsonConvert.SerializeObject(dataTable);
+
+                context.Response.ContentType = "application/json";
+                context.Response.Write(jsonText);
             }
             else if(actionName == "query")
             {
